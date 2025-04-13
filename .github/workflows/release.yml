@@ -52,8 +52,11 @@ jobs:
     - name: Debug downloaded files
       run: ls -la
 
-    - name: Debug downloaded artifact
-      run: ls .
+    - name: Create a zip file of the publish directory
+      run: zip -r DisplayCountWatcherService.zip ./
+
+    - name: Debug zip file
+      run: ls -la
 
     - name: Checkout code
       uses: actions/checkout@v3
@@ -75,6 +78,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./
+        asset_path: ./DisplayCountWatcherService.zip
         asset_name: DisplayCountWatcherService.zip
         asset_content_type: application/zip
