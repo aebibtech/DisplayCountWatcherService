@@ -29,8 +29,8 @@ public class Worker : BackgroundService
 
     private void OnDisplaySettingsChanged(object sender, EventArgs e)
     {
-        string? appPath = _config.GetValue<string>("AppPath");
-        string? args = _config.GetValue<string>("Args");
+        string? appPath = _config.GetValue<string>("ExecutablePath");
+        string? args = _config.GetValue<string>("Arguments");
         string? workingDirectory = _config.GetValue<string>("WorkingDirectory");
         _logger.LogInformation("Display settings changed at: {time}", DateTimeOffset.Now);
 
@@ -87,8 +87,8 @@ public class Worker : BackgroundService
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation(
-            "Display count watcher service is running.\n\tExecutable file path: {ex}\n\tArguments: {a}.",
-            _config.GetValue<string>("AppPath"), _config.GetValue<string>("Args"));
+            "Display count watcher service is running.\n\tExecutable file path: {ex}\n\tArguments: {a}\n\tWorking directory: {w}",
+            _config.GetValue<string>("ExecutablePath"), _config.GetValue<string>("Arguments"), _config.GetValue<string>("WorkingDirectory"));
         return Task.CompletedTask;
     }
 
