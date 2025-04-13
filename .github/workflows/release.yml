@@ -30,10 +30,10 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeAllContentForSelfExtract=true -o ./publish
 
-    - name: Create release artifact
+    - name: Upload publish directory as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: DisplayCountWatcherService
+        name: publish-artifact
         path: ./publish
 
   release:
@@ -41,6 +41,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: publish-artifact
+
     - name: Checkout code
       uses: actions/checkout@v3
 
