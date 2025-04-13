@@ -31,7 +31,7 @@ jobs:
       run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeAllContentForSelfExtract=true -o ./publish
 
     - name: Debug publish directory
-      run: ls -la ./publish
+      run: ls ./publish
 
     - name: Upload publish directory as artifact
       uses: actions/upload-artifact@v4
@@ -53,7 +53,7 @@ jobs:
       run: ls -la
 
     - name: Debug downloaded artifact
-      run: ls -la ./publish
+      run: ls ./publish
 
     - name: Checkout code
       uses: actions/checkout@v3
