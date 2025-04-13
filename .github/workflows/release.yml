@@ -50,7 +50,7 @@ jobs:
         name: publish-artifact
 
     - name: Debug downloaded files
-      run: ls publish-artifact
+      run: ls ./
 
     - name: Install Inno Setup
       run: choco install innosetup --yes

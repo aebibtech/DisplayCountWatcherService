@@ -6,9 +6,10 @@ DefaultGroupName=DisplayCountWatcherService
 OutputBaseFilename=DisplayCountWatcherServiceInstaller
 Compression=lzma
 SolidCompression=yes
+PrivilegesRequired=admin
 
 [Files]
-Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\DisplayCountWatcherService"; Filename: "{app}\DisplayCountWatcherService.exe"
