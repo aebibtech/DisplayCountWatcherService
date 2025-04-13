@@ -1,5 +1,8 @@
 name: Build and Release
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
@@ -10,29 +13,23 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    # Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Setup .NET environment
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.x' # Use .NET 8
+        dotnet-version: '8.0.x'
 
-    # Install dependencies
     - name: Install dependencies
       run: dotnet restore
 
-    # Build the project
     - name: Build
       run: dotnet build --configuration Release
 
-    # Publish the application
     - name: Publish
       run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeAllContentForSelfExtract=true -o ./publish
 
-    # Archive the published files
     - name: Create release artifact
       uses: actions/upload-artifact@v4
       with:
@@ -44,11 +41,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Create a GitHub Release
     - name: Create GitHub Release
       uses: actions/create-release@v1
       env:
@@ -59,7 +54,6 @@ jobs:
         draft: false
         prerelease: false
 
-    # Upload the artifact to the release
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
