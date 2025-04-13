@@ -55,14 +55,17 @@ jobs:
     - name: Install Inno Setup
       run: choco install innosetup --yes
 
+    - name: Check current directory
+      run: ls ./
+
     - name: Create Installer
       run: |
-        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
+        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" .\setup.iss
       env:
         PATH: ${{ env.PATH }};C:\Program Files (x86)\Inno Setup 6
 
     - name: Debug installer
-      run: ls -la
+      run: ls ./
 
     - name: Create GitHub Release
       id: create_release
