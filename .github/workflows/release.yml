@@ -28,7 +28,7 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Publish
-      run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeAllContentForSelfExtract=true -o ./publish
+      run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true -o ./publish
 
     - name: Debug publish directory
       run: ls ./publish
@@ -41,7 +41,7 @@ jobs:
 
   release:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Download build artifact
@@ -50,16 +50,19 @@ jobs:
         name: publish-artifact
 
     - name: Debug downloaded files
+      run: ls publish-artifact
+
+    - name: Install Inno Setup
+      run: choco install innosetup --yes
+
+    - name: Create Installer
+      run: |
+        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
+      env:
+        PATH: ${{ env.PATH }};C:\Program Files (x86)\Inno Setup 6
+
+    - name: Debug installer
       run: ls -la
-
-    - name: Create a zip file of the publish directory
-      run: zip -r DisplayCountWatcherService.zip ./
-
-    - name: Debug zip file
-      run: ls -la
-
-    - name: Checkout code
-      uses: actions/checkout@v3
 
     - name: Create GitHub Release
       id: create_release
@@ -72,15 +75,12 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Debug zip file
-      run: ls -la ../
-
-    - name: Upload Release Asset
+    - name: Upload Installer
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./DisplayCountWatcherService.zip
-        asset_name: DisplayCountWatcherService.zip
-        asset_content_type: application/zip
+        asset_path: ./Output/DisplayCountWatcherServiceInstaller.exe
+        asset_name: DisplayCountWatcherServiceInstaller.exe
+        asset_content_type: application/vnd.microsoft.portable-executable
