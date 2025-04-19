@@ -40,7 +40,8 @@ public class Worker : BackgroundService
                     {
                         Arguments = args,
                         FileName = appPath,
-                        WorkingDirectory = workingDirectory ?? string.Empty
+                        WorkingDirectory = workingDirectory ?? string.Empty,
+                        LoadUserProfile = true,
                     });
                     _storage.ProcessId = (process?.Id).GetValueOrDefault();
                 }
